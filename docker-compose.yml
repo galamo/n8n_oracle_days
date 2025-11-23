@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678" # n8n UI port
+    environment:
+      - GENERIC_TIMEZONE=America/New_York # Change to your timezone
+      - N8N_BASIC_AUTH_ACTIVE=true # Enable basic auth
+      - N8N_BASIC_AUTH_USER=admin # Auth username
+      - N8N_BASIC_AUTH_PASSWORD=changeme # Auth password
+      - N8N_HOST=localhost # Hostname
+      - N8N_PORT=5678 # Port inside container
+      - DB_TYPE=sqlite # Using SQLite for simplicity
+      - DB_SQLITE_VACUUM_ON_STARTUP=true
+      - N8N_PATH=/ # Base path
+    volumes:
+      - n8n_data:/home/node/.n8n # Persist workflow data
+
+volumes:
+  n8n_data:
